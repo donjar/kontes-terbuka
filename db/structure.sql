@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.3
--- Dumped by pg_dump version 12.5 (Ubuntu 12.5-1.pgdg18.04+1)
+-- Dumped from database version 13.2
+-- Dumped by pg_dump version 13.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,9 +30,62 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
 COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
 
 
+--
+-- Name: tablefunc; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS tablefunc WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION tablefunc; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION tablefunc IS 'functions that manipulate whole tables, including crosstab';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: about_users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.about_users (
+    id integer NOT NULL,
+    user_id integer,
+    name character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    image_file_name character varying,
+    image_content_type character varying,
+    image_file_size bigint,
+    image_updated_at timestamp without time zone,
+    is_alumni boolean
+);
+
+
+--
+-- Name: about_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.about_users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: about_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.about_users_id_seq OWNED BY public.about_users.id;
+
 
 --
 -- Name: colors; Type: TABLE; Schema: public; Owner: -
@@ -51,7 +104,6 @@ CREATE TABLE public.colors (
 --
 
 CREATE SEQUENCE public.colors_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -79,7 +131,7 @@ CREATE TABLE public.contests (
     updated_at timestamp without time zone NOT NULL,
     problem_pdf_file_name character varying,
     problem_pdf_content_type character varying,
-    problem_pdf_file_size bigint,
+    problem_pdf_file_size integer,
     problem_pdf_updated_at timestamp without time zone,
     rule text DEFAULT ''::text,
     result_time timestamp without time zone NOT NULL,
@@ -90,11 +142,11 @@ CREATE TABLE public.contests (
     result_released boolean DEFAULT false NOT NULL,
     problem_tex_file_name character varying,
     problem_tex_content_type character varying,
-    problem_tex_file_size bigint,
+    problem_tex_file_size integer,
     problem_tex_updated_at timestamp without time zone,
     marking_scheme_file_name character varying,
     marking_scheme_content_type character varying,
-    marking_scheme_file_size bigint,
+    marking_scheme_file_size integer,
     marking_scheme_updated_at timestamp without time zone,
     book_promo character varying,
     timer interval hour to second
@@ -106,7 +158,6 @@ CREATE TABLE public.contests (
 --
 
 CREATE SEQUENCE public.contests_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -146,7 +197,6 @@ CREATE TABLE public.delayed_jobs (
 --
 
 CREATE SEQUENCE public.delayed_jobs_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -180,7 +230,6 @@ CREATE TABLE public.feedback_answers (
 --
 
 CREATE SEQUENCE public.feedback_answers_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -213,7 +262,6 @@ CREATE TABLE public.feedback_questions (
 --
 
 CREATE SEQUENCE public.feedback_questions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -241,7 +289,7 @@ CREATE TABLE public.long_problems (
     updated_at timestamp without time zone NOT NULL,
     report_file_name character varying,
     report_content_type character varying,
-    report_file_size bigint,
+    report_file_size integer,
     report_updated_at timestamp without time zone,
     start_time timestamp without time zone,
     end_time timestamp without time zone,
@@ -254,7 +302,6 @@ CREATE TABLE public.long_problems (
 --
 
 CREATE SEQUENCE public.long_problems_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -289,7 +336,6 @@ CREATE TABLE public.long_submissions (
 --
 
 CREATE SEQUENCE public.long_submissions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -302,6 +348,38 @@ CREATE SEQUENCE public.long_submissions_id_seq
 --
 
 ALTER SEQUENCE public.long_submissions_id_seq OWNED BY public.long_submissions.id;
+
+
+--
+-- Name: migration_validators; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.migration_validators (
+    id integer NOT NULL,
+    table_name character varying NOT NULL,
+    column_name character varying NOT NULL,
+    validation_type character varying NOT NULL,
+    options character varying
+);
+
+
+--
+-- Name: migration_validators_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.migration_validators_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: migration_validators_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.migration_validators_id_seq OWNED BY public.migration_validators.id;
 
 
 --
@@ -324,7 +402,6 @@ CREATE TABLE public.notifications (
 --
 
 CREATE SEQUENCE public.notifications_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -358,7 +435,6 @@ CREATE TABLE public.point_transactions (
 --
 
 CREATE SEQUENCE public.point_transactions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -391,7 +467,6 @@ CREATE TABLE public.provinces (
 --
 
 CREATE SEQUENCE public.provinces_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -423,7 +498,6 @@ CREATE TABLE public.referrers (
 --
 
 CREATE SEQUENCE public.referrers_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -457,7 +531,6 @@ CREATE TABLE public.roles (
 --
 
 CREATE SEQUENCE public.roles_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -506,7 +579,6 @@ CREATE TABLE public.short_problems (
 --
 
 CREATE SEQUENCE public.short_problems_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -540,7 +612,6 @@ CREATE TABLE public.short_submissions (
 --
 
 CREATE SEQUENCE public.short_submissions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -563,7 +634,8 @@ CREATE TABLE public.statuses (
     id integer NOT NULL,
     name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT chk_mv_statuses_name CHECK (((name IS NOT NULL) AND (length(btrim((name)::text)) > 0)))
 );
 
 
@@ -572,7 +644,6 @@ CREATE TABLE public.statuses (
 --
 
 CREATE SEQUENCE public.statuses_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -599,7 +670,7 @@ CREATE TABLE public.submission_pages (
     updated_at timestamp without time zone NOT NULL,
     submission_file_name character varying,
     submission_content_type character varying,
-    submission_file_size bigint,
+    submission_file_size integer,
     submission_updated_at timestamp without time zone
 );
 
@@ -609,7 +680,6 @@ CREATE TABLE public.submission_pages (
 --
 
 CREATE SEQUENCE public.submission_pages_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -644,7 +714,6 @@ CREATE TABLE public.temporary_markings (
 --
 
 CREATE SEQUENCE public.temporary_markings_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -679,7 +748,6 @@ CREATE TABLE public.user_contests (
 --
 
 CREATE SEQUENCE public.user_contests_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -712,7 +780,6 @@ CREATE TABLE public.user_notifications (
 --
 
 CREATE SEQUENCE public.user_notifications_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -759,7 +826,6 @@ CREATE TABLE public.users (
 --
 
 CREATE SEQUENCE public.users_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -801,7 +867,6 @@ CREATE TABLE public.version_associations (
 --
 
 CREATE SEQUENCE public.version_associations_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -838,7 +903,6 @@ CREATE TABLE public.versions (
 --
 
 CREATE SEQUENCE public.versions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -851,6 +915,13 @@ CREATE SEQUENCE public.versions_id_seq
 --
 
 ALTER SEQUENCE public.versions_id_seq OWNED BY public.versions.id;
+
+
+--
+-- Name: about_users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.about_users ALTER COLUMN id SET DEFAULT nextval('public.about_users_id_seq'::regclass);
 
 
 --
@@ -900,6 +971,13 @@ ALTER TABLE ONLY public.long_problems ALTER COLUMN id SET DEFAULT nextval('publi
 --
 
 ALTER TABLE ONLY public.long_submissions ALTER COLUMN id SET DEFAULT nextval('public.long_submissions_id_seq'::regclass);
+
+
+--
+-- Name: migration_validators id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.migration_validators ALTER COLUMN id SET DEFAULT nextval('public.migration_validators_id_seq'::regclass);
 
 
 --
@@ -1008,6 +1086,14 @@ ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.ver
 
 
 --
+-- Name: about_users about_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.about_users
+    ADD CONSTRAINT about_users_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: colors colors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1061,6 +1147,14 @@ ALTER TABLE ONLY public.long_problems
 
 ALTER TABLE ONLY public.long_submissions
     ADD CONSTRAINT long_submissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: migration_validators migration_validators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.migration_validators
+    ADD CONSTRAINT migration_validators_pkey PRIMARY KEY (id);
 
 
 --
@@ -1195,6 +1289,13 @@ CREATE INDEX delayed_jobs_priority ON public.delayed_jobs USING btree (priority,
 --
 
 CREATE UNIQUE INDEX feedback_question_and_user_contest_unique_pair ON public.feedback_answers USING btree (feedback_question_id, user_contest_id);
+
+
+--
+-- Name: index_colors_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_colors_on_name ON public.colors USING btree (name);
 
 
 --
@@ -1433,6 +1534,13 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING bt
 --
 
 CREATE INDEX index_versions_on_transaction_id ON public.versions USING btree (transaction_id);
+
+
+--
+-- Name: unique_idx_on_migration_validators; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX unique_idx_on_migration_validators ON public.migration_validators USING btree (table_name, column_name, validation_type);
 
 
 --
@@ -1754,6 +1862,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160714041253');
 
 INSERT INTO schema_migrations (version) VALUES ('20160714154105');
 
+INSERT INTO schema_migrations (version) VALUES ('20160714174434');
+
 INSERT INTO schema_migrations (version) VALUES ('20160716000155');
 
 INSERT INTO schema_migrations (version) VALUES ('20160720081651');
@@ -1765,6 +1875,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160720155458');
 INSERT INTO schema_migrations (version) VALUES ('20160726085657');
 
 INSERT INTO schema_migrations (version) VALUES ('20160730035813');
+
+INSERT INTO schema_migrations (version) VALUES ('20160730161813');
 
 INSERT INTO schema_migrations (version) VALUES ('20160730173851');
 
@@ -1828,6 +1940,8 @@ INSERT INTO schema_migrations (version) VALUES ('20180124153301');
 
 INSERT INTO schema_migrations (version) VALUES ('20180226033248');
 
+INSERT INTO schema_migrations (version) VALUES ('20210119090413');
+
 INSERT INTO schema_migrations (version) VALUES ('20210122183013');
 
 INSERT INTO schema_migrations (version) VALUES ('20210203093153');
@@ -1836,9 +1950,13 @@ INSERT INTO schema_migrations (version) VALUES ('20210203093232');
 
 INSERT INTO schema_migrations (version) VALUES ('20210203093336');
 
+INSERT INTO schema_migrations (version) VALUES ('20210217071002');
+
 INSERT INTO schema_migrations (version) VALUES ('20210303071859');
 
 INSERT INTO schema_migrations (version) VALUES ('20210303072630');
 
 INSERT INTO schema_migrations (version) VALUES ('20210303073140');
+
+INSERT INTO schema_migrations (version) VALUES ('20210317051727');
 

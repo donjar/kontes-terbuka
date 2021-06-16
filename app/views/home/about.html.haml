@@ -14,8 +14,13 @@
     semua orang. Selain itu, kontes ini berisi soal-soal berkualitas
     yang sangat cocok untuk persiapan OSN tingkat kabupaten, provinsi,
     maupun nasional.
+
   %h2 Tim Kami
-  .row#daftar-panitia
-  \... dan banyak lainnya!
-  %h3 Alumni Tim Kami
-  .row#alumni-panitia
+  .row
+    - process_team_and_alumni(@team).each do |tag|
+      = tag
+
+  %h2 Alumni Tim Kami
+  .row
+    - process_team_and_alumni(@alumni).each do |tag|
+      = tag

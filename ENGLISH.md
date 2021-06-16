@@ -95,11 +95,12 @@ sudo apt install <packagename>
         3. Elevate user privilege: `alter user "ubuntu" with superuser;`
     3. Now we will set the database up with `bundle exec rake db:setup`
     4. Run all migration files by `bundle exec rake db:migrate`
-8. The initial setup to run the server has been done. To run the server in test environment, you can run 
+8. Create `.env` file in the root directory and copy over the contents from `.env.default` to `.env`. Populate the variables inside `.env` with the appropriate values.
+9. The initial setup to run the server has been done. To run the local server, use
     ```bash
-    bundle exec rails s -e test
+    bundle exec rails s
     ```
-9. Last, you may wish to make an admin in the website (by default would be on `0.0.0.0:3000`). 
+10. Last, you may wish to make an admin in the website (by default would be on `0.0.0.0:3000`). 
    Do the following steps to make an admin account in the website:
     1. Make a user as per normal in the website
     2. No email will be sent, instead we need to go to rails console and manually enable the user. 

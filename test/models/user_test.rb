@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/LineLength
 # == Schema Information
 #
 # Table name: users
@@ -32,7 +33,7 @@
 #  index_users_on_referrer_id   (referrer_id)
 #  index_users_on_status_id     (status_id)
 #  index_users_on_username      (username) UNIQUE
-#  index_users_on_username_gin  (username)
+#  index_users_on_username_gin  (username) USING gin
 #  index_users_on_verification  (verification) UNIQUE
 #
 # Foreign Keys
@@ -41,6 +42,7 @@
 #  fk_rails_...  (province_id => provinces.id) ON DELETE => nullify
 #  fk_rails_...  (status_id => statuses.id) ON DELETE => nullify
 #
+# rubocop:enable Metrics/LineLength
 
 require 'test_helper'
 

@@ -52,13 +52,14 @@ class Ability
     can :admin, Application
   end
 
-  private def panitia_abilities(_user)
+  private def panitia_abilities(user)
     can %i[preview summary admin download_marking_scheme
            download_problem_pdf download_reports], Contest
     can %i[index_full show_full show], User
     can :download_on_contest, FeedbackAnswer
     can %i[admin profile see_referrers], Application
     can :download_certificates_data, UserContest
+    can %i[create edit update destroy], AboutUser, user_id: user.id
   end
 
   private def marking_manager_abilities(_user)

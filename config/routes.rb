@@ -36,6 +36,8 @@ Rails.application.routes.draw do
         delete 'delete', to: 'user_notifications#delete'
       end
     end
+
+    resource :about_user, path: '/about-user', only: %i[create edit update destroy]
   end
 
   resources :roles, only: %i[create destroy] do

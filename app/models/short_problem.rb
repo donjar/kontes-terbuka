@@ -5,18 +5,18 @@
 #
 # Table name: short_problems
 #
-#  id         :integer          not null, primary key
-#  contest_id :integer          not null
-#  problem_no :integer          not null
-#  statement  :string           default(""), not null
-#  answer     :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  start_time :datetime
-#  end_time   :datetime
-#  correct_score: integer       default: 1
-#  empty_score: integer         default: 0
-#  wrong_score: integer         default: 0
+#  id            :integer          not null, primary key
+#  contest_id    :integer          not null
+#  problem_no    :integer          not null
+#  statement     :string           default(""), not null
+#  answer        :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  start_time    :datetime
+#  end_time      :datetime
+#  correct_score :integer          default(1)
+#  wrong_score   :integer          default(0)
+#  empty_score   :integer          default(0)
 #
 # Indexes
 #

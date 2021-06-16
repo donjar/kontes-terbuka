@@ -10,3 +10,18 @@
 
 - if can? :show_full, @user
   %p #{@user.point} #{point_image}
+
+-if can? :edit, @user.about_user
+  %h2 About Me
+  -if @user.about_user.nil?
+    %p Buat sekarang!
+    = form_for [@user, @user.build_about_user], url: user_about_user_path(@user) do |f|
+      = render partial: 'about_users/form', locals: { f: f }
+      = f.submit 'Buat', class: 'btn'
+  - else
+    =image_tag @user.about_user.image.url(:small)
+    %p= "Nama: #{@user.about_user.name}"
+    %p Deskripsi:
+    %p= @user.about_user.description
+    %p= @user.about_user.is_alumni ? "Alumni: ya" : "Alumni: tidak"
+    = link_to('Edit About Me', edit_user_about_user_path(@user), class: 'btn', type: 'button')
