@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # config valid only for current version of Capistrano
-lock '3.11.2'
+lock '3.16.0'
 
 set :application, 'kontes-terbuka'
 set :repo_url, 'git@github.com:donjar/kontes-terbuka.git'

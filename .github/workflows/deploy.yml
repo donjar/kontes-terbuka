@@ -1,0 +1,38 @@
+name: Run deploy
+
+on:
+  push:
+    branches: [production]
+
+jobs:
+  deploy:
+    name: Capistrano Deploy to Server
+    runs-on: ubuntu-16.04
+
+    steps:
+      - name: Install SSH key to Server
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          name: github-actions
+          known_hosts: 'random-placeholder-value-replaced-by-keyscan-below'
+          config: |
+            host ktom.tomi.or.id
+              IdentityFile ~/.ssh/github-actions
+              IdentitiesOnly yes
+              ForwardAgent yes
+      - name: Adding Known Hosts
+        run: ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5.0
+      - run: | 
+          bundle install
+      - name: Deploy to production
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/github-actions
+          bundle exec cap production deploy

@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
-# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby.
 name: Run lint and test
 
 on:
